@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {IERC20} from "@openzeppelin/contracts/interfaces/IERC20.sol";
-import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import {OwnerIsCreator} from "@chainlink/contracts-ccip/src/v0.8/shared/access/OwnerIsCreator.sol";
+import {OwnerIsCreator} from "@chainlink/src/v0.8/shared/access/OwnerIsCreator.sol";
+import {IERC20} from "@openzeppelin/interfaces/IERC20.sol";
+import {SafeERC20} from "@openzeppelin/token/ERC20/utils/SafeERC20.sol";
 
 /**
  * THIS IS AN EXAMPLE CONTRACT THAT USES HARDCODED VALUES FOR CLARITY.
@@ -21,12 +21,15 @@ contract Withdraw is OwnerIsCreator {
 
         if (amount == 0) revert NothingToWithdraw();
 
-        (bool sent,) = _beneficiary.call{value: amount}("");
+        (bool sent, ) = _beneficiary.call{value: amount}("");
 
         if (!sent) revert FailedToWithdrawEth(msg.sender, _beneficiary, amount);
     }
 
-    function withdrawToken(address _beneficiary, address _token) public onlyOwner {
+    function withdrawToken(
+        address _beneficiary,
+        address _token
+    ) public onlyOwner {
         uint256 amount = IERC20(_token).balanceOf(address(this));
 
         if (amount == 0) revert NothingToWithdraw();

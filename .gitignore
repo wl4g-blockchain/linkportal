@@ -2,6 +2,10 @@
 cache/
 out/
 
+# larges libs.
+lib/chainlink/
+lib/openzeppelin-contracts/
+
 # Ignores development broadcast logs
 !/broadcast
 /broadcast/*/31337/

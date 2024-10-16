@@ -2,11 +2,11 @@
 pragma solidity 0.8.24;
 
 import {ERC1155Core, ERC1155} from "./ERC1155Core.sol";
-import {Client} from "@chainlink/contracts-ccip/src/v0.8/ccip/libraries/Client.sol";
-import {IRouterClient} from "@chainlink/contracts-ccip/src/v0.8/ccip/interfaces/IRouterClient.sol";
-import {IAny2EVMMessageReceiver} from "@chainlink/contracts-ccip/src/v0.8/ccip/interfaces/IAny2EVMMessageReceiver.sol";
-import {LinkTokenInterface} from "@chainlink/contracts/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
-import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import {Client} from "@chainlink/src/v0.8/ccip/libraries/Client.sol";
+import {IRouterClient} from "@chainlink/src/v0.8/ccip/interfaces/IRouterClient.sol";
+import {IAny2EVMMessageReceiver} from "@chainlink/src/v0.8/ccip/interfaces/IAny2EVMMessageReceiver.sol";
+import {LinkTokenInterface} from "@chainlink/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
+import {ReentrancyGuard} from "@openzeppelin/utils/ReentrancyGuard.sol";
 import {Withdraw} from "./utils/Withdraw.sol";
 
 /**
