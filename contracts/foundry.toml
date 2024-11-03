@@ -2,7 +2,19 @@
 src = "src"
 out = "out"
 libs = ["lib"]
+solc = "0.8.24"
 
 [dependencies]
 openzeppelin = "openzeppelin/openzeppelin-contracts@v5.0.2"
 chainlink = "smartcontractkit/chainlink@v2.17.0"
+#
+#[etherscan]
+# mainnet = { key = "${ETHERSCAN_MAINNET_KEY}" }
+# mainnet2 = { key = "ABCDEFG", chain = "mainnet" }
+# optimism = { key = "1234576", chain = 42 }
+# unknownchain = { key = "ABCDEFG", url = "https://<etherscan-api-url-for-that-chain>" }
+#
+#[rpc_endpoints]
+# optimism = "https://optimism.alchemyapi.io/v2/1234567"
+# mainnet = "${RPC_MAINNET}"
+# goerli = "https://eth-goerli.alchemyapi.io/v2/${GOERLI_API_KEY}"
