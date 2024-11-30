@@ -8,7 +8,7 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Coins className="text-blue-500" size={32} />
-            <span className="text-xl font-bold">LinkPortal</span>
+            <span className="text-xl font-bold">LinkPortal™</span>
           </div>
           <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors">
             Connect Wallet
