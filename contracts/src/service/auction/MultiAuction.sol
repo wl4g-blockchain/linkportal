@@ -1,13 +1,22 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.24;
 
+import {Initializable} from "@openzeppelin/contracts/proxy/utils/Initializable.sol";
+import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 import {IERC1155} from "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
 import {IERC1155Receiver} from "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
 import {SafeCast} from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import {MultiReentrancyGuard} from "../../utils/MultiReentrancyGuard.sol";
 
-abstract contract MultiAuction is IERC1155Receiver, MultiReentrancyGuard {
+abstract contract MultiAuction is
+    IERC1155Receiver,
+    MultiReentrancyGuard,
+    Ownable,
+    Initializable,
+    Pausable
+{
     struct Auction {
         address seller;
         address nftContract;
@@ -58,11 +67,17 @@ abstract contract MultiAuction is IERC1155Receiver, MultiReentrancyGuard {
         uint256 winningBid
     );
 
-    address public immutable paymentToken;
+    address public /*immutable*/ paymentToken;
     mapping(uint256 => Auction) public auctions;
     uint256 public auctionCount;
 
-    constructor(address _paymentToken) {
+    constructor(address _paymentToken) Ownable(msg.sender) {
+        paymentToken = _paymentToken;
+    }
+
+    function initialize(address _paymentToken) public initializer {
+        // __Ownable_init();
+        // __Pausable_init();
         paymentToken = _paymentToken;
     }
 
@@ -73,7 +88,7 @@ abstract contract MultiAuction is IERC1155Receiver, MultiReentrancyGuard {
         uint256 _startPrice,
         uint256 _endPrice,
         uint48 _duration
-    ) external returns (uint256 auctionId) {
+    ) external whenNotPaused returns (uint256 auctionId) {
         if (!(_startPrice > 0 && _startPrice <= _endPrice))
             revert InvalidAuctionParameters();
 
@@ -106,7 +121,7 @@ abstract contract MultiAuction is IERC1155Receiver, MultiReentrancyGuard {
 
     function startAuction(
         uint256 _auctionId
-    ) external nonReentrant(_auctionId) {
+    ) external whenNotPaused nonReentrant(_auctionId) {
         Auction storage auction = auctions[_auctionId];
 
         if (auction.isActive) revert AuctionAlreadyStarted();
