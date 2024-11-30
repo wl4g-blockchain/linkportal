@@ -12,7 +12,7 @@ contract DutchAuction is MultiAuction {
     function bid(
         uint256 _auctionId,
         uint256 _bidAmount
-    ) external payable override {
+    ) external payable override nonReentrant(_auctionId) {
         Auction storage auction = auctions[_auctionId];
 
         if (!auction.isActive) revert AuctionNotActive();
@@ -34,7 +34,9 @@ contract DutchAuction is MultiAuction {
         emit BidPlaced(_auctionId, msg.sender, _bidAmount);
     }
 
-    function endAuction(uint256 _auctionId) external payable override {
+    function endAuction(
+        uint256 _auctionId
+    ) external payable override nonReentrant(_auctionId) {
         Auction storage auction = auctions[_auctionId];
 
         if (!auction.isActive) revert AuctionNotActive();

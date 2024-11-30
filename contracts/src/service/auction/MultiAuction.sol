@@ -104,7 +104,9 @@ abstract contract MultiAuction is IERC1155Receiver, MultiReentrancyGuard {
         return auctionId;
     }
 
-    function startAuction(uint256 _auctionId) external {
+    function startAuction(
+        uint256 _auctionId
+    ) external nonReentrant(_auctionId) {
         Auction storage auction = auctions[_auctionId];
 
         if (auction.isActive) revert AuctionAlreadyStarted();

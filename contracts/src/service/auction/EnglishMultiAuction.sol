@@ -10,7 +10,7 @@ contract EnglishAuction is MultiAuction {
     function bid(
         uint256 _auctionId,
         uint256 _bidAmount
-    ) external payable override {
+    ) external payable override nonReentrant(_auctionId) {
         Auction storage auction = auctions[_auctionId];
 
         if (!auction.isActive) revert AuctionNotActive();
@@ -39,7 +39,9 @@ contract EnglishAuction is MultiAuction {
         emit BidPlaced(_auctionId, msg.sender, _bidAmount);
     }
 
-    function endAuction(uint256 _auctionId) external payable override {
+    function endAuction(
+        uint256 _auctionId
+    ) external payable override nonReentrant(_auctionId) {
         Auction storage auction = auctions[_auctionId];
 
         if (!auction.isActive) revert AuctionNotActive();
@@ -64,7 +66,9 @@ contract EnglishAuction is MultiAuction {
         emit EndedAuction(_auctionId, auction.latestBidder, auction.latestBid);
     }
 
-    function withdrawBid(uint256 _auctionId) external payable override {
+    function withdrawBid(
+        uint256 _auctionId
+    ) external payable override nonReentrant(_auctionId) {
         Auction storage auction = auctions[_auctionId];
 
         if (msg.sender == auction.latestBidder) revert NothingToWithdraw();
