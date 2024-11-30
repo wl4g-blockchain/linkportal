@@ -7,7 +7,7 @@ import {IRouterClient} from "@chainlink/src/v0.8/ccip/interfaces/IRouterClient.s
 import {IAny2EVMMessageReceiver} from "@chainlink/src/v0.8/ccip/interfaces/IAny2EVMMessageReceiver.sol";
 import {LinkTokenInterface} from "@chainlink/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
 import {ReentrancyGuard} from "@openzeppelin/utils/ReentrancyGuard.sol";
-import {Withdraw} from "./utils/Withdraw.sol";
+import {Withdraw} from "./../utils/Withdraw.sol";
 
 /**
  * THIS IS AN EXAMPLE CONTRACT THAT USES HARDCODED VALUES FOR CLARITY.

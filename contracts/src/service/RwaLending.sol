@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.24;
 
-import {RealEstateToken} from "../RealEstateToken.sol";
+import {RealEstateToken} from "../core/RealEstateToken.sol";
 import {IERC1155Receiver, IERC165} from "@openzeppelin/token/ERC1155/IERC1155Receiver.sol";
 import {OwnerIsCreator} from "@chainlink/src/v0.8/shared/access/OwnerIsCreator.sol";
 import {ReentrancyGuard} from "@openzeppelin/utils/ReentrancyGuard.sol";
