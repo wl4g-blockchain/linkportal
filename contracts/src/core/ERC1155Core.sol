@@ -5,9 +5,8 @@ import {ERC1155Supply, ERC1155} from "@openzeppelin/contracts/token/ERC1155/exte
 import {OwnerIsCreator} from "@chainlink/contracts/src/v0.8/shared/access/OwnerIsCreator.sol";
 
 /**
- * THIS IS AN EXAMPLE CONTRACT THAT USES HARDCODED VALUES FOR CLARITY.
- * THIS IS AN EXAMPLE CONTRACT THAT USES UN-AUDITED CODE.
- * DO NOT USE THIS CODE IN PRODUCTION.
+ * @title ERC1155Core
+ * @notice This contract is a base contract for ERC1155 tokens.
  */
 contract ERC1155Core is ERC1155Supply, OwnerIsCreator {
     address internal s_issuer;
@@ -35,10 +34,13 @@ contract ERC1155Core is ERC1155Supply, OwnerIsCreator {
         emit SetIssuer(_issuer);
     }
 
-    function mint(address _to, uint256 _id, uint256 _amount, bytes memory _data, string memory _tokenUri)
-        public
-        onlyIssuerOrItself
-    {
+    function mint(
+        address _to,
+        uint256 _id,
+        uint256 _amount,
+        bytes memory _data,
+        string memory _tokenUri
+    ) public onlyIssuerOrItself {
         _mint(_to, _id, _amount, _data);
         _tokenURIs[_id] = _tokenUri;
     }
@@ -56,16 +58,28 @@ contract ERC1155Core is ERC1155Supply, OwnerIsCreator {
         }
     }
 
-    function burn(address account, uint256 id, uint256 amount) public onlyIssuerOrItself {
-        if (account != _msgSender() && !isApprovedForAll(account, _msgSender())) {
+    function burn(
+        address account,
+        uint256 id,
+        uint256 amount
+    ) public onlyIssuerOrItself {
+        if (
+            account != _msgSender() && !isApprovedForAll(account, _msgSender())
+        ) {
             revert ERC1155MissingApprovalForAll(_msgSender(), account);
         }
 
         _burn(account, id, amount);
     }
 
-    function burnBatch(address account, uint256[] memory ids, uint256[] memory amounts) public onlyIssuerOrItself {
-        if (account != _msgSender() && !isApprovedForAll(account, _msgSender())) {
+    function burnBatch(
+        address account,
+        uint256[] memory ids,
+        uint256[] memory amounts
+    ) public onlyIssuerOrItself {
+        if (
+            account != _msgSender() && !isApprovedForAll(account, _msgSender())
+        ) {
             revert ERC1155MissingApprovalForAll(_msgSender(), account);
         }
 

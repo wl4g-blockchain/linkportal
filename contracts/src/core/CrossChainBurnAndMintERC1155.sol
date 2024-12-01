@@ -10,9 +10,9 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 import {Withdraw} from "./../utils/Withdraw.sol";
 
 /**
- * THIS IS AN EXAMPLE CONTRACT THAT USES HARDCODED VALUES FOR CLARITY.
- * THIS IS AN EXAMPLE CONTRACT THAT USES UN-AUDITED CODE.
- * DO NOT USE THIS CODE IN PRODUCTION.
+ * @title CrossChainBurnAndMintERC1155
+ * @notice This contract is a ERC1155 token that can be minted and burned on any chain.
+ *  It can also be transferred between chains.
  */
 contract CrossChainBurnAndMintERC1155 is
     ERC1155Core,
