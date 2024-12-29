@@ -4,56 +4,57 @@
 
 ## Introduction
 
-- TODO
+As blockchain technology rapidly evolves, the tokenization of Real-World Assets (RWAs) is transforming how we access, trade, and manage assets. Our project aims to establish an efficient, transparent, and cost-effective platform that connects liquidity providers with investors, facilitating the tokenization of RWAs and promoting their global trading. This platform leverages the advantages of blockchain technology to deliver unprecedented financial services experiences.
 
 ### Build
 
-```shell
+```bash
 forge build
 ```
 
 ### Test
 
-```shell
+```bash
 forge test
 ```
 
 ### Format
 
-```shell
+```bash
 forge fmt
 ```
 
 ### Gas Snapshots
 
-```shell
-$ forge snapshot
+```bash
+forge snapshot
 ```
 
 ### Anvil
 
-```shell
-$ anvil
+```bash
+anvil
 ```
 
 ### Deploy
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```bash
+# see: https://dashboard.alchemy.com/apps/ivsvjp8jwo22wv89/setup
+forge script script/Counter.s.sol:CounterScript --rpc-url https://eth-sepolia.g.alchemy.com/v2/M8QUxbFISVXMqMxvWWKx-N2cxUJF9jmD --private-key ${SEPOLIA_PRIVATE_KEY_1}
 ```
 
 ### Cast
 
-```shell
-$ cast <subcommand>
+```bash
+cast <subcommand>
 ```
 
 ### Help
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+```bash
+forge --help
+anvil --help
+cast --help
 ```
 
 ## Testnet Deployment information

@@ -9,6 +9,3 @@
 - [contracts](./contracts/README.md)
 
 - [admin](./admin/README.md)
-
-- TODO
-
