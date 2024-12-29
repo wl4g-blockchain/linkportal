@@ -18,8 +18,8 @@ select_network() {
     echo "3) Avalanche Mainnet"
     echo "4) Avalanche Fuji"
     echo "5) Optimism Mainnet"
-    echo "6) Optimism Goerli"
-    # Not implemented yet?
+    echo "6) Optimism Sepolia"
+    # TODO Due to Chainlink Function still not implemention yet?
     #echo "7) BSC Mainnet"
     #echo "8) BSC Testnet"
     
@@ -49,10 +49,10 @@ deploy() {
     if [ -z "$RPC_URL" ]; then
         echo -e "${RED}Error: RPC URL not found for chain ID ${CHAIN_ID}${NC}"
         exit 1
-    }
+    fi
     
     # Deploy contracts
-    forge script script/DeployRealEstate.s.sol:DeployRealEstateScript \
+    forge script script/DeployRealEstateScript.s.sol:DeployRealEstateScript \
         --rpc-url ${RPC_URL} \
         --broadcast \
         --verify \
