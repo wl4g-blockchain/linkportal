@@ -6,6 +6,11 @@ import {FunctionsClient} from "@chainlink/contracts/src/v0.8/functions/v1_0_0/Fu
 import {FunctionsRequest} from "@chainlink/contracts/src/v0.8/functions/v1_0_0/libraries/FunctionsRequest.sol";
 import {FunctionsSource} from "./FunctionsSource.sol";
 
+/**
+ * @title RealEstatePriceDetails
+ * @author James Wong
+ * @notice This contract is used to get the price details of a real estate property.
+ */
 contract RealEstatePriceDetails is
     FunctionsClient,
     FunctionsSource,

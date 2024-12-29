@@ -3,7 +3,7 @@ pragma solidity ^0.8.24;
 
 import {Script, console} from "forge-std/Script.sol";
 import {RealEstateToken} from "../src/onchain/RealEstateToken.sol";
-import {Issuer} from "../src/onchain/Issuer.sol";
+import {RealEstateIssuer} from "../src/onchain/RealEstateIssuer.sol";
 import {NetworkConfig} from "./config/NetworkConfig.s.sol";
 
 /*
@@ -70,8 +70,8 @@ contract DeployRealEstateScript is Script {
             network.functionsRouter
         );
 
-        // Deploy Issuer
-        Issuer issuer = new Issuer(
+        // Deploy RealEstateIssuer
+        RealEstateIssuer issuer = new RealEstateIssuer(
             address(realEstateToken),
             network.functionsRouter
         );

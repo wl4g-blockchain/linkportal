@@ -100,11 +100,11 @@ contract CrossChainBurnAndMintERC1155 is
     }
 
     constructor(
-        string memory uri_,
+        string memory uri,
         address ccipRouterAddress,
         address linkTokenAddress,
         uint64 currentChainSelector
-    ) ERC1155Core(uri_) {
+    ) ERC1155Core(uri) {
         i_ccipRouter = IRouterClient(ccipRouterAddress);
         i_linkToken = LinkTokenInterface(linkTokenAddress);
         i_currentChainSelector = currentChainSelector;
