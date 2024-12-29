@@ -2,8 +2,8 @@
 pragma solidity ^0.8.24;
 
 import {Script, console} from "forge-std/Script.sol";
-import {RealEstateToken} from "../src/core/RealEstateToken.sol";
-import {Issuer} from "../src/core/Issuer.sol";
+import {RealEstateToken} from "../src/onchain/RealEstateToken.sol";
+import {Issuer} from "../src/onchain/Issuer.sol";
 
 /**
  * @title DeployRealEstateScript

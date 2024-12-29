@@ -7,7 +7,7 @@ import {IRouterClient} from "@chainlink/contracts/src/v0.8/ccip/interfaces/IRout
 import {IAny2EVMMessageReceiver} from "@chainlink/contracts/src/v0.8/ccip/interfaces/IAny2EVMMessageReceiver.sol";
 import {LinkTokenInterface} from "@chainlink/contracts/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-import {Withdraw} from "./../utils/Withdraw.sol";
+import {Withdraw} from "../utils/Withdraw.sol";
 
 /**
  * @title CrossChainBurnAndMintERC1155

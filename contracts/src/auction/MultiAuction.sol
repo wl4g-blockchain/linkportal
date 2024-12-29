@@ -8,7 +8,7 @@ import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 import {IERC1155} from "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
 import {IERC1155Receiver} from "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
 import {SafeCast} from "@openzeppelin/contracts/utils/math/SafeCast.sol";
-import {MultiReentrancyGuard} from "../../utils/MultiReentrancyGuard.sol";
+import {MultiReentrancyGuard} from "../utils/MultiReentrancyGuard.sol";
 
 abstract contract MultiAuction is
     IERC1155Receiver,
