@@ -78,7 +78,7 @@ contract EnglishAuction is MultiAuction {
 
         auction.bids[msg.sender] = 0;
 
-        // 退款
+        // Refund to bidder.
         IERC20(paymentToken).transfer(msg.sender, bidAmount);
     }
 
@@ -86,6 +86,6 @@ contract EnglishAuction is MultiAuction {
         uint256 _auctionId
     ) public view override returns (uint256) {
         Auction storage auction = auctions[_auctionId];
-        return auction.startPrice; // 对于英式拍卖，当前价格始终是起始价格
+        return auction.latestBid; // Montonically increasing, currenly price from latest bid.
     }
 }
