@@ -39,6 +39,9 @@ export default function BorrowPanel() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-4">
+
+          {/* 
+          should to remove it, no needs
           <div>
             <label className="block text-sm font-medium text-slate-400 mb-2">
               Select Real Estate Token
@@ -55,7 +58,7 @@ export default function BorrowPanel() {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
 
           <div>
             <label className="block text-sm font-medium text-slate-400 mb-2">
