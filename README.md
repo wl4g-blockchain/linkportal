@@ -8,4 +8,4 @@
 
 - [contracts](./contracts/README.md)
 
-- [backend](./backend/README.md)
+- [backend](../../../linkportal-backend/blob/main/README.md)
