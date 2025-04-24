@@ -14,6 +14,9 @@ contract ERC1155Core is ERC1155Supply, OwnerIsCreator {
     // Optional mapping for token URIs
     mapping(uint256 tokenId => string) private _tokenURIs;
 
+    // 用户与tokenId的映射
+    mapping(address user => uint256 tokenId) private _userTokenId;
+
     event SetIssuer(address indexed issuer);
 
     error ERC1155Core_CallerIsNotIssuerOrItself(address msgSender);
@@ -34,15 +37,13 @@ contract ERC1155Core is ERC1155Supply, OwnerIsCreator {
         emit SetIssuer(_issuer);
     }
 
-    function mint(
-        address _to,
-        uint256 _id,
-        uint256 _amount,
-        bytes memory _data,
-        string memory _tokenUri
-    ) public onlyIssuerOrItself {
+    function mint(address _to, uint256 _id, uint256 _amount, bytes memory _data, string memory _tokenUri)
+        public
+        onlyIssuerOrItself
+    {
         _mint(_to, _id, _amount, _data);
         _tokenURIs[_id] = _tokenUri;
+        _userTokenId[_to] = _id;
     }
 
     function mintBatch(
@@ -55,35 +56,28 @@ contract ERC1155Core is ERC1155Supply, OwnerIsCreator {
         _mintBatch(_to, _ids, _amounts, _data);
         for (uint256 i = 0; i < _ids.length; ++i) {
             _tokenURIs[_ids[i]] = _tokenUris[i];
+            _userTokenId[_to] = _ids[i];
         }
     }
 
-    function burn(
-        address account,
-        uint256 id,
-        uint256 amount
-    ) public onlyIssuerOrItself {
-        if (
-            account != _msgSender() && !isApprovedForAll(account, _msgSender())
-        ) {
+    function burn(address account, uint256 id, uint256 amount) public onlyIssuerOrItself {
+        if (account != _msgSender() && !isApprovedForAll(account, _msgSender())) {
             revert ERC1155MissingApprovalForAll(_msgSender(), account);
         }
 
         _burn(account, id, amount);
+        _userTokenId[account] = 0;
     }
 
-    function burnBatch(
-        address account,
-        uint256[] memory ids,
-        uint256[] memory amounts
-    ) public onlyIssuerOrItself {
-        if (
-            account != _msgSender() && !isApprovedForAll(account, _msgSender())
-        ) {
+    function burnBatch(address account, uint256[] memory ids, uint256[] memory amounts) public onlyIssuerOrItself {
+        if (account != _msgSender() && !isApprovedForAll(account, _msgSender())) {
             revert ERC1155MissingApprovalForAll(_msgSender(), account);
         }
 
         _burnBatch(account, ids, amounts);
+        for (uint256 i = 0; i < ids.length; ++i) {
+            _userTokenId[account] = 0;
+        }
     }
 
     function uri(uint256 tokenId) public view override returns (string memory) {

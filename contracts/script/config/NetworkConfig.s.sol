@@ -9,6 +9,8 @@ library NetworkConfig {
         uint64 chainSelector;
         string name;
         uint256 chainId;
+        address usdcUsdAggregator;
+        uint256 usdcUsdFeedHeartbeatInterval;
     }
 
     function getNetworkConfig(
@@ -25,7 +27,9 @@ library NetworkConfig {
                     functionsRouter: 0x65Dcc24F8ff9e51F10DCc7Ed1e4e2A61e6E14bd6,
                     chainSelector: 5009297550715157269,
                     name: "Ethereum Mainnet",
-                    chainId: chainId
+                    chainId: chainId,
+                    usdcUsdAggregator: 0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6,
+                    usdcUsdFeedHeartbeatInterval: 3600
                 });
         }
         // Sepolia Testnet
@@ -39,7 +43,9 @@ library NetworkConfig {
                     functionsRouter: 0xb83E47C2bC239B3bf370bc41e1459A34b41238D0,
                     chainSelector: 16015286601757825753,
                     name: "Sepolia Testnet",
-                    chainId: chainId
+                    chainId: chainId,
+                    usdcUsdAggregator: 0xA2F78ab2355fe2f984D808B5CeE7FD0A93D5270E,
+                    usdcUsdFeedHeartbeatInterval: 3600
                 });
         }
         // Avalanche Mainnet
@@ -53,7 +59,9 @@ library NetworkConfig {
                     functionsRouter: 0x9f82a6A0758517FD0AfA463820F586999AF314a0,
                     chainSelector: 6433500567565415381,
                     name: "Avalanche Mainnet",
-                    chainId: chainId
+                    chainId: chainId,
+                    usdcUsdAggregator: 0xF096872672F44d6EBA71458D74fe67F9a77a23B9,
+                    usdcUsdFeedHeartbeatInterval: 3600
                 });
         }
         // Avalanche Fuji Testnet
@@ -67,7 +75,9 @@ library NetworkConfig {
                     functionsRouter: 0xA9d587a00A31A52Ed70D6026794a8FC5E2F5dCb0,
                     chainSelector: 14767482510784806043,
                     name: "Avalanche Fuji",
-                    chainId: chainId
+                    chainId: chainId,
+                    usdcUsdAggregator: 0x97FE42a7E96640D932bbc0e1580c73E705A8EB73,
+                    usdcUsdFeedHeartbeatInterval: 3600
                 });
         }
         // Optimism Mainnet
@@ -81,7 +91,9 @@ library NetworkConfig {
                     functionsRouter: 0xaA8AaA682C9eF150C0C8E96a8D60945BCB21faad,
                     chainSelector: 3734403246176062136,
                     name: "Optimism Mainnet",
-                    chainId: chainId
+                    chainId: chainId,
+                    usdcUsdAggregator: 0x16a9FA2FDa030272Ce99B29CF780dFA30361E0f3,
+                    usdcUsdFeedHeartbeatInterval: 3600
                 });
         }
         // Optimism Sepolia Testnet
@@ -95,7 +107,9 @@ library NetworkConfig {
                     functionsRouter: 0xC17094E3A1348E5C7544D4fF8A36c28f2C6AAE28,
                     chainSelector: 5224473277236331295,
                     name: "Optimism Sepolia",
-                    chainId: chainId
+                    chainId: chainId,
+                    usdcUsdAggregator: 0x6e44e50E3cc14DD16e01C590DC1d7020cb36eD4C,
+                    usdcUsdFeedHeartbeatInterval: 3600
                 });
         }
         // // BSC Mainnet

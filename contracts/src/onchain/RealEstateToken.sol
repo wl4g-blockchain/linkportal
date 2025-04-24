@@ -2,7 +2,6 @@
 pragma solidity 0.8.24;
 
 import {CrossChainBurnAndMintERC1155} from "./CrossChainBurnAndMintERC1155.sol";
-import {RealEstatePriceDetails} from "./RealEstatePriceDetails.sol";
 
 /**
  * @title RealEstateToken
@@ -10,8 +9,7 @@ import {RealEstatePriceDetails} from "./RealEstatePriceDetails.sol";
  * @notice RealEstateToken is a cross-chain ERC1155 token that supports burn and mint operations.
  */
 contract RealEstateToken is
-    CrossChainBurnAndMintERC1155,
-    RealEstatePriceDetails
+    CrossChainBurnAndMintERC1155
 {
     constructor(
         string memory uri,
@@ -26,6 +24,5 @@ contract RealEstateToken is
             linkTokenAddress,
             currentChainSelector
         )
-        RealEstatePriceDetails(functionsRouterAddress)
     {}
 }
