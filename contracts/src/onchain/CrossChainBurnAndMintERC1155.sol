@@ -14,22 +14,14 @@ import {Withdraw} from "../utils/Withdraw.sol";
  * @notice This contract is a ERC1155 token that can be minted and burned on any chain.
  *  It can also be transferred between chains.
  */
-contract CrossChainBurnAndMintERC1155 is
-    ERC1155Core,
-    IAny2EVMMessageReceiver,
-    ReentrancyGuard,
-    Withdraw
-{
+contract CrossChainBurnAndMintERC1155 is ERC1155Core, IAny2EVMMessageReceiver, ReentrancyGuard, Withdraw {
     enum PayFeesIn {
         Native,
         LINK
     }
 
     error InvalidRouter(address router);
-    error NotEnoughBalanceForFees(
-        uint256 currentBalance,
-        uint256 calculatedFees
-    );
+    error NotEnoughBalanceForFees(uint256 currentBalance, uint256 calculatedFees);
     error ChainNotEnabled(uint64 chainSelector);
     error SenderNotEnabled(address sender);
     error OperationNotAllowedOnCurrentChain(uint64 chainSelector);
@@ -43,14 +35,9 @@ contract CrossChainBurnAndMintERC1155 is
     LinkTokenInterface internal immutable i_linkToken;
     uint64 private immutable i_currentChainSelector;
 
-    mapping(uint64 destChainSelector => XNftDetails xNftDetailsPerChain)
-        public s_chains;
+    mapping(uint64 destChainSelector => XNftDetails xNftDetailsPerChain) public s_chains;
 
-    event ChainEnabled(
-        uint64 chainSelector,
-        address xNftAddress,
-        bytes ccipExtraArgs
-    );
+    event ChainEnabled(uint64 chainSelector, address xNftAddress, bytes ccipExtraArgs);
     event ChainDisabled(uint64 chainSelector);
     event CrossChainSent(
         address from,
@@ -99,33 +86,25 @@ contract CrossChainBurnAndMintERC1155 is
         _;
     }
 
-    constructor(
-        string memory uri,
-        address ccipRouterAddress,
-        address linkTokenAddress,
-        uint64 currentChainSelector
-    ) ERC1155Core(uri) {
+    constructor(string memory uri, address ccipRouterAddress, address linkTokenAddress, uint64 currentChainSelector)
+        ERC1155Core(uri)
+    {
         i_ccipRouter = IRouterClient(ccipRouterAddress);
         i_linkToken = LinkTokenInterface(linkTokenAddress);
         i_currentChainSelector = currentChainSelector;
     }
 
-    function enableChain(
-        uint64 chainSelector,
-        address xNftAddress,
-        bytes memory ccipExtraArgs
-    ) external onlyOwner onlyOtherChains(chainSelector) {
-        s_chains[chainSelector] = XNftDetails({
-            xNftAddress: xNftAddress,
-            ccipExtraArgsBytes: ccipExtraArgs
-        });
+    function enableChain(uint64 chainSelector, address xNftAddress, bytes memory ccipExtraArgs)
+        external
+        onlyOwner
+        onlyOtherChains(chainSelector)
+    {
+        s_chains[chainSelector] = XNftDetails({xNftAddress: xNftAddress, ccipExtraArgsBytes: ccipExtraArgs});
 
         emit ChainEnabled(chainSelector, xNftAddress, ccipExtraArgs);
     }
 
-    function disableChain(
-        uint64 chainSelector
-    ) external onlyOwner onlyOtherChains(chainSelector) {
+    function disableChain(uint64 chainSelector) external onlyOwner onlyOtherChains(chainSelector) {
         delete s_chains[chainSelector];
 
         emit ChainDisabled(chainSelector);
@@ -139,25 +118,16 @@ contract CrossChainBurnAndMintERC1155 is
         bytes memory data,
         uint64 destinationChainSelector,
         PayFeesIn payFeesIn
-    )
-        external
-        nonReentrant
-        onlyEnabledChain(destinationChainSelector)
-        returns (bytes32 messageId)
-    {
+    ) external nonReentrant onlyEnabledChain(destinationChainSelector) returns (bytes32 messageId) {
         string memory tokenUri = uri(id);
         burn(from, id, amount);
 
         Client.EVM2AnyMessage memory message = Client.EVM2AnyMessage({
-            receiver: abi.encode(
-                s_chains[destinationChainSelector].xNftAddress
-            ),
+            receiver: abi.encode(s_chains[destinationChainSelector].xNftAddress),
             data: abi.encode(from, to, id, amount, data, tokenUri),
             tokenAmounts: new Client.EVMTokenAmount[](0),
             extraArgs: s_chains[destinationChainSelector].ccipExtraArgsBytes,
-            feeToken: payFeesIn == PayFeesIn.LINK
-                ? address(i_linkToken)
-                : address(0)
+            feeToken: payFeesIn == PayFeesIn.LINK ? address(i_linkToken) : address(0)
         });
 
         // Get the fee required to send the CCIP message
@@ -165,89 +135,46 @@ contract CrossChainBurnAndMintERC1155 is
 
         if (payFeesIn == PayFeesIn.LINK) {
             if (fees > i_linkToken.balanceOf(address(this))) {
-                revert NotEnoughBalanceForFees(
-                    i_linkToken.balanceOf(address(this)),
-                    fees
-                );
+                revert NotEnoughBalanceForFees(i_linkToken.balanceOf(address(this)), fees);
             }
 
             // Approve the Router to transfer LINK tokens on contract's behalf. It will spend the fees in LINK
             i_linkToken.approve(address(i_ccipRouter), fees);
 
             // Send the message through the router and store the returned message ID
-            messageId = i_ccipRouter.ccipSend(
-                destinationChainSelector,
-                message
-            );
+            messageId = i_ccipRouter.ccipSend(destinationChainSelector, message);
         } else {
             if (fees > address(this).balance) {
                 revert NotEnoughBalanceForFees(address(this).balance, fees);
             }
 
             // Send the message through the router and store the returned message ID
-            messageId = i_ccipRouter.ccipSend{value: fees}(
-                destinationChainSelector,
-                message
-            );
+            messageId = i_ccipRouter.ccipSend{value: fees}(destinationChainSelector, message);
         }
 
-        emit CrossChainSent(
-            from,
-            to,
-            id,
-            amount,
-            data,
-            i_currentChainSelector,
-            destinationChainSelector
-        );
+        emit CrossChainSent(from, to, id, amount, data, i_currentChainSelector, destinationChainSelector);
     }
 
-    function supportsInterface(
-        bytes4 interfaceId
-    ) public view override(ERC1155) returns (bool) {
-        return
-            interfaceId == type(IAny2EVMMessageReceiver).interfaceId ||
-            super.supportsInterface(interfaceId);
+    function supportsInterface(bytes4 interfaceId) public view override(ERC1155) returns (bool) {
+        return interfaceId == type(IAny2EVMMessageReceiver).interfaceId || super.supportsInterface(interfaceId);
     }
 
     /// @inheritdoc IAny2EVMMessageReceiver
-    function ccipReceive(
-        Client.Any2EVMMessage calldata message
-    )
+    function ccipReceive(Client.Any2EVMMessage calldata message)
         external
         virtual
         override
         onlyRouter
         nonReentrant
         onlyEnabledChain(message.sourceChainSelector)
-        onlyEnabledSender(
-            message.sourceChainSelector,
-            abi.decode(message.sender, (address))
-        )
+        onlyEnabledSender(message.sourceChainSelector, abi.decode(message.sender, (address)))
     {
         uint64 sourceChainSelector = message.sourceChainSelector;
-        (
-            address from,
-            address to,
-            uint256 id,
-            uint256 amount,
-            bytes memory data,
-            string memory tokenUri
-        ) = abi.decode(
-                message.data,
-                (address, address, uint256, uint256, bytes, string)
-            );
+        (address from, address to, uint256 id, uint256 amount, bytes memory data, string memory tokenUri) =
+            abi.decode(message.data, (address, address, uint256, uint256, bytes, string));
 
         mint(to, id, amount, data, tokenUri);
 
-        emit CrossChainReceived(
-            from,
-            to,
-            id,
-            amount,
-            data,
-            sourceChainSelector,
-            i_currentChainSelector
-        );
+        emit CrossChainReceived(from, to, id, amount, data, sourceChainSelector, i_currentChainSelector);
     }
 }

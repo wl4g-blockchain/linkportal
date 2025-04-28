@@ -1,3 +1,9 @@
 [submodule "backend"]
 	path = backend
 	url = git@github.com:wl4g-blockchain/linkportal-backend.git
+[submodule "contracts/lib/openzeppelin-contracts"]
+	path = contracts/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "contracts/lib/chainlink"]
+	path = contracts/lib/chainlink
+	url = https://github.com/smartcontractkit/chainlink
