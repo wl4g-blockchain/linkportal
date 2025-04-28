@@ -4,8 +4,6 @@
 
 ## Introduction
 
-- [dapp](./dapp/README.md)
-
+- [frontend](./frontend/README.md)
 - [contracts](./contracts/README.md)
-
 - [backend](../../../linkportal-backend/blob/main/README.md)
